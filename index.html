@@ -163,7 +163,7 @@
     </div>
   </div>
 
-  <audio id="romanticMusic" loop>
+  <audio id="romanticMusic" preload="auto" loop>
     <source src="West Coast.mp3" type="audio/mpeg">
     Tu navegador no soporta audio.
   </audio>
@@ -171,6 +171,7 @@
   <script>
     const correctPassword = '1602';
     let input = '';
+    const music = document.getElementById('romanticMusic');
 
     function enterDigit(digit) {
       if (input.length < 4) {
@@ -181,7 +182,7 @@
         if (input === correctPassword) {
           document.getElementById('passwordScreen').classList.remove('active');
           document.getElementById('cartaScreen').classList.add('active');
-          document.getElementById('romanticMusic').play();
+          music.play().catch(e => console.log('Autoplay bloqueado:', e));
           startHearts();
         } else {
           alert('Contraseña incorrecta, intenta de nuevo');
