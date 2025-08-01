@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>❤️ Feliz Día de la Novia</title>
+  <style>
+    body {
+      background-color: #fff0f5;
+      color: #4a2c2a;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .screen {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .active {
+      display: flex;
+    }
+
+    .password-box {
+      background-color: #ffe0ec;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      max-width: 300px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .password-display {
+      font-size: 24px;
+      letter-spacing: 10px;
+      margin-bottom: 20px;
+      color: #c71585;
+    }
+
+    .number-pad {
+      display: flex;
+      justify-content: center;
+    }
+
+    .number-pad > div {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .number-pad button {
+      font-size: 24px;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      background-color: #f8b6c4;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .number-pad button:hover {
+      background-color: #ff80a1;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 700px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.15);
+      position: relative;
+      z-index: 2;
+    }
+
+    .heart {
+      position: fixed;
+      top: -30px;
+      animation: fall linear infinite;
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0.9;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh);
+        opacity: 0;
+      }
+    }
+
+    h1 {
+      font-size: 28px;
+      color: #d6336c;
+      text-align: center;
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 1.6;
+      text-align: justify;
+    }
+
+    .date {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #8b0000;
+      font-size: 18px;
+      text-align: right;
+    }
+
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="screen active" id="passwordScreen">
+    <div class="password-box">
+      <div class="password-display" id="inputDisplay">••••</div>
+      <div class="number-pad">
+        <div>
+          <button onclick="enterDigit('1')">1</button>
+          <button onclick="enterDigit('2')">2</button>
+          <button onclick="enterDigit('3')">3</button>
+          <button onclick="enterDigit('4')">4</button>
+          <button onclick="enterDigit('5')">5</button>
+          <button onclick="enterDigit('6')">6</button>
+          <button onclick="enterDigit('7')">7</button>
+          <button onclick="enterDigit('8')">8</button>
+          <button onclick="enterDigit('9')">9</button>
+          <button onclick="clearInput()">←</button>
+          <button onclick="enterDigit('0')">0</button>
+          <button onclick="clearInput()">C</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen" id="cartaScreen">
+    <div class="card">
+      <h1>❤️ Feliz Día de la Novia ❤️</h1>
+      <p>
+        Amor mío,<br><br>
+
+        No sabes cuánto bien me haces. A pesar de todo lo que hemos pasado, de esas veces en las que lloramos, discutimos o tropezamos, seguimos aquí... juntos, más fuertes. Cada problema que superamos solo me confirma cuánto te amo y cuánto vale este amor que estamos construyendo.<br><br>
+        Te pido perdón por las veces que me pongo tonto, por esos momentos en los que no sé manejar bien lo que siento. Pero nunca, nunca dudes de que te amo con todo lo que soy. Tú eres mi vida, mi mundo entero. A tu lado he encontrado no solo una pareja, sino a mi persona favorita.<br><br>
+        Si en algún momento sientes que me estás cambiando, no te sientas mal. Lo que estás haciendo es ayudarme a ser una mejor versión de mí. Estoy creciendo, aprendiendo, y todo eso es gracias a ti y a este amor que me mueve el alma.<br><br>
+        Prometo seguir luchando por nosotros. Porque tú y yo valemos cada intento, cada paso, cada día. Estoy contigo hoy y siempre, pase lo que pase.<br><br>
+        Te amo más de lo que las palabras pueden decir.<br>
+        Con todo mi corazón,<br>
+        Tuyo por siempre ❤️
+      </p>
+      <div class="date">Arequipa, 01 de agosto de 2025</div>
+    </div>
+  </div>
+
+  <audio id="romanticMusic" loop>
+    <source src="West Coast.mp3" type="audio/mpeg">
+    Tu navegador no soporta audio.
+  </audio>
+
+  <script>
+    const correctPassword = '1602';
+    let input = '';
+
+    function enterDigit(digit) {
+      if (input.length < 4) {
+        input += digit;
+      }
+      document.getElementById('inputDisplay').textContent = input.padEnd(4, '•');
+      if (input.length === 4) {
+        if (input === correctPassword) {
+          document.getElementById('passwordScreen').classList.remove('active');
+          document.getElementById('cartaScreen').classList.add('active');
+          document.getElementById('romanticMusic').play();
+          startHearts();
+        } else {
+          alert('Contraseña incorrecta, intenta de nuevo');
+          clearInput();
+        }
+      }
+    }
+
+    function clearInput() {
+      input = '';
+      document.getElementById('inputDisplay').textContent = '••••';
+    }
+
+    function startHearts() {
+      const symbols = ['❤️', '💖', '💕', '💘'];
+      setInterval(() => {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = (2 + Math.random() * 4) + 's';
+        heart.style.fontSize = (20 + Math.random() * 30) + 'px';
+        heart.style.transform = `rotate(${Math.random() * 360}deg)`;
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 6000);
+      }, 100);
+    }
+  </script>
+</body>
+</html>
